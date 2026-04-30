@@ -1,0 +1,401 @@
+# Proyecto de Servicios de Infraestructura
+
+## Página 1: Introducción y esquema general
+
+### Introducción
+La empresa contrata un servicio de infraestructura para:
+- Diseñar una topología WAN/LAN entre sede matriz, almacén y dos tiendas.
+- Configurar servicios centrales: SQL, CROND, SSH, APACHE2, CUPS y SAMBA.
+- Definir usuarios, departamentos, grupos, permisos y carpetas compartidas.
+- Documentar la implementación con un mapa de red y un inventario de equipos.
+
+### Elementos clave
+- Ubicaciones: Matriz, Almacén, Tienda 1, Tienda 2.
+- Servicios: Web de inventarios, base de datos, acceso remoto, impresión y compartición.
+- Usuarios: 4 departamentos con 3 usuarios cada uno.
+- Grupos: funcionales (ventas, marketing, rrhh, direccion, sistemas) y operativos (vendedor, proveedor, soporte, admin).
+- Seguridad: permisos basados en rol.
+
+### Cómo usar este documento
+- Cada página describe una parte del proyecto.
+- El primer bloque es el esquema general.
+- La segunda página presenta el mapa WAN.
+- La tercera página ofrece el mapa LAN y propiedades de equipos.
+- Las siguientes páginas detallan inventario, grupos y servicios.
+
+---
+
+## Página 2: Mapa WAN
+
+### Descripción
+El mapa WAN describe la conectividad global entre las ubicaciones:
+- Matriz se conecta a Almacén y Tienda 1 y Tienda 2.
+- Almacén mantiene enlace con Matriz y respaldo con Tienda 1.
+- Tienda 1 y Tienda 2 se conectan a Matriz para sincronización de ventas e inventario.
+
+### Componentes WAN
+- Firewall/VPN principal en Matriz.
+- Enlace VPN/IPsec a Almacén.
+- Enlace VPN/IPsec a Tienda 1.
+- Enlace VPN/IPsec a Tienda 2.
+- Conexión Internet compartida en Matriz para servicios web.
+
+### Referencia Google Maps
+- Matriz: https://www.google.com/maps?q=Oficina+Central
+- Almacén: https://www.google.com/maps?q=Almacen+Logistico
+- Tienda 1: https://www.google.com/maps?q=Tienda+Principal
+- Tienda 2: https://www.google.com/maps?q=Tienda+Secundaria
+
+### Notas
+- El mapa WAN debe ser generado en Google Maps con marcadores para cada ubicación.
+- Incluir enlaces en la presentación para ver la geolocalización.
+
+---
+
+## Página 3: Mapa LAN y propiedades de equipos
+
+### Mapa LAN general
+Cada ubicación tiene su propia LAN con los siguientes equipos:
+
+- Matriz:
+  - Servidor principal: `SERV-MAT`.
+  - PC de sistemas: `PC-SIS-01`.
+  - PC de gerencia: `PC-GER-01`.
+  - Impresora color: `CUPS-GER-01`.
+
+- Almacén:
+  - Servidor logístico: `SERV-ALM`.
+  - PC de inventario: `PC-ALM-01`.
+  - Impresora almacén: `CUPS-ALM-01`.
+
+- Tienda 1:
+  - PC de ventas: `POS-01`.
+  - PC de apoyo: `POS-01-2`.
+  - Impresora tickets: `TKT-01`.
+
+- Tienda 2:
+  - PC de ventas: `POS-02`.
+  - PC de apoyo: `POS-02-2`.
+  - Impresora tickets: `TKT-02`.
+
+### Propiedades clicables de equipos
+Para cada equipo, al hacer clic deberá mostrarse:
+- Nombre del equipo.
+- Tipo de equipo (PC, servidor, impresora).
+- Dirección IP.
+- Ubicación física.
+- Usuario asignado.
+- Servicios activos.
+- Departamento asociado.
+
+### Ejemplo de propiedades
+- `SERV-MAT`
+  - IP: `10.10.0.10`
+  - Ubicación: Matriz
+  - Servicios: Apache2, MySQL, Samba, CUPS, SSH, cron
+  - Responsable: `sistemas_admin`
+  - Observación: servidor central de inventario y respaldo.
+
+- `POS-01`
+  - IP: `10.10.2.11`
+  - Ubicación: Tienda 1
+  - Servicios: cliente de punto de venta, Samba, SSH
+  - Usuario: `ventas_apo1`
+  - Departamento: Ventas
+
+---
+
+## Página 4: Inventario de PCs y equipos
+
+### Inventario por ubicación
+
+#### Matriz
+- `PC-SIS-01`
+  - IP: `10.10.0.20`
+  - Usuario: `sistemas_soporte`
+  - Departamento: Sistemas
+  - Rol: Técnico de soporte
+  - Servicios: SSH, Samba, acceso web de administración
+  - Impresora: `CUPS-MAT-01`
+  - Carpeta: `/srv/samba/sistemas`
+
+- `PC-GER-01`
+  - IP: `10.10.0.30`
+  - Usuario: `gerencia_jefe`
+  - Departamento: Dirección
+  - Rol: Gerente general
+  - Servicios: navegador web, acceso a carpetas de gerencia, impresora color
+  - Impresora: `CUPS-GER-01`
+  - Carpeta: `/srv/samba/direccion`
+
+#### Almacén
+- `PC-ALM-01`
+  - IP: `10.10.1.20`
+  - Usuario: `rrhh_apo1`
+  - Departamento: Recursos Humanos / Almacén
+  - Rol: Control de inventario
+  - Servicios: web de inventario, SQL, Samba
+  - Impresora: `CUPS-ALM-01`
+  - Carpeta: `/srv/samba/rrhh`
+
+#### Tienda 1
+- `POS-01`
+  - IP: `10.10.2.11`
+  - Usuario: `ventas_jefe`
+  - Departamento: Ventas
+  - Rol: Jefe de ventas
+  - Servicios: punto de venta, SSH, Samba
+  - Impresora: `TKT-01`
+  - Carpeta: `/mnt/ventas`
+
+- `POS-01-2`
+  - IP: `10.10.2.12`
+  - Usuario: `ventas_apo2`
+  - Departamento: Ventas
+  - Rol: Apoyo de ventas
+  - Servicios: punto de venta, SSH, Samba
+  - Impresora: `TKT-01`
+  - Carpeta: `/mnt/ventas`
+
+#### Tienda 2
+- `POS-02`
+  - IP: `10.10.3.11`
+  - Usuario: `ventas_apo1`
+  - Departamento: Ventas
+  - Rol: Apoyo de ventas
+  - Servicios: punto de venta, SSH, Samba
+  - Impresora: `TKT-02`
+  - Carpeta: `/mnt/ventas`
+
+- `POS-02-2`
+  - IP: `10.10.3.12`
+  - Usuario: `ventas_apo2`
+  - Departamento: Ventas
+  - Rol: Apoyo de ventas
+  - Servicios: punto de venta, SSH, Samba
+  - Impresora: `TKT-02`
+  - Carpeta: `/mnt/ventas`
+
+### Información de equipos
+- IP: dirección física de cada equipo dentro de la LAN.
+- Usuario: usuario local primario.
+- Departamento: área de negocio que lo utiliza.
+- Puesto/Rol: función del operador.
+- Servicios: aplicaciones y servicios habilitados.
+- Impresoras: cola de impresión asociada.
+- Carpetas: recurso compartido asignado.
+
+---
+
+## Página 5: Usuarios, departamentos, grupos y permisos
+
+### Departamentos creados
+- Sistemas
+- Ventas
+- Recursos Humanos
+- Dirección / Gerencia
+
+### Usuarios por departamento
+
+#### Sistemas
+- `sistemas_admin` — root / administrador total.
+- `sistemas_soporte` — soporte remoto.
+- `sistemas_infra` — administración de infraestructura.
+
+#### Ventas
+- `ventas_jefe` — permiso intermedio.
+- `ventas_apo1` — permiso común.
+- `ventas_apo2` — permiso común.
+
+#### Recursos Humanos
+- `rrhh_jefe` — permiso intermedio.
+- `rrhh_apo1` — permiso común.
+- `rrhh_apo2` — permiso común.
+
+#### Dirección
+- `gerencia_jefe` — permiso intermedio.
+- `gerencia_apo1` — permiso común.
+- `gerencia_apo2` — permiso común.
+
+### Grupos funcionales
+- `ventas`
+- `marketing`
+- `rrhh`
+- `direccion`
+- `sistemas`
+
+### Grupos operativos
+- `oper_vendedor`
+- `oper_proveedor`
+- `oper_soporte`
+- `oper_admin`
+
+### Permisos según puesto
+- Jefe: `permiso_intermedio`.
+- Apoyo: `permiso_comun`.
+- En sistemas: `root` o `permiso_admin` en carpetas de infraestructura.
+
+### Carpetas compartidas por departamento
+- `/srv/samba/ventas` — acceso ventas.
+- `/srv/samba/marketing` — acceso marketing.
+- `/srv/samba/rrhh` — acceso RR.HH.
+- `/srv/samba/direccion` — acceso dirección.
+- `/srv/samba/sistemas` — control root.
+- `/srv/samba/invitados` — acceso público para usuarios invitados.
+
+### Permisos de carpeta
+- Sistemas: dueño y control `root`.
+- Ventas / RRHH / Dirección: permisos intermedios para jefes y acceso común para apoyos.
+- Invitados: acceso lectura/escritura limitado en `/srv/samba/invitados`.
+
+---
+
+## Página 6: Servicios y escenarios
+
+### Servicio SSH
+#### Funcionamiento
+SSH se utiliza para soporte remoto desde el equipo de sistemas hacia las computadoras de tiendas.
+- Conexiones seguras mediante clave o contraseña.
+- Servicio habilitado en las PCs de Tienda 1 y Tienda 2.
+- Los usuarios de sistemas tienen acceso remoto a los equipos de tienda.
+
+#### Usuarios con permiso SSH
+- `sistemas_admin`
+- `sistemas_soporte`
+- `sistemas_infra`
+
+#### Proceso de conexión SSH de ejemplo
+1. Desde `PC-SIS-01`:
+   - `ssh sistemas_soporte@10.10.2.11`
+   - `ssh sistemas_soporte@10.10.3.11`
+2. Verificar conectividad y autenticación.
+3. Ejecutar tareas de soporte, como revisión de logs, actualizaciones y solución de incidencias.
+
+#### Evidencia esperada
+- Log de conexión SSH con IP de origen y destino.
+- Captura o registro de sesión de soporte técnico.
+- Comandos ejecutados para validar acceso remoto.
+
+---
+
+### Servicio Web y Base de Datos
+#### Ubicación y responsabilidad
+- Se despliega en el Almacén y la Matriz.
+- El almacén es responsable del sistema de inventarios web y SQL.
+
+#### Arquitectura propuesta
+- Apache2 como servidor web.
+- MariaDB/MySQL como motor de base de datos.
+- Aplicación web de inventarios accesible desde la LAN/WAN.
+
+#### Datos de servicio
+- URL interna: `http://10.10.1.10/inventario`
+- Base de datos: `inventarios_db`
+- Usuario DB: `inventario_app`
+- Contraseña DB: `Inv3nt@r10!`
+
+#### Funcionalidad
+- Gestión de stock en tiempo real.
+- Reportes de ventas y estado de inventario.
+- Integración entre tiendas y almacén.
+
+---
+
+### Impresoras (CUPS)
+#### Matriz
+- `CUPS-GER-01` — impresora color para dirección.
+- `CUPS-MAT-01` — impresora administrativa para sistemas.
+
+#### Almacén
+- `CUPS-ALM-01` — impresora de logística.
+
+#### Tiendas
+- `TKT-01` — impresora de tickets Tienda 1.
+- `TKT-02` — impresora de tickets Tienda 2.
+
+#### Configuración
+- Servicio CUPS instalado en servidor Matriz y Almacén.
+- Colas configuradas para cada impresora.
+- Permisos de impresión por departamento.
+
+---
+
+### Carpeta compartida (Samba)
+#### Carpetas por área
+- `ventas` — `/srv/samba/ventas`
+- `marketing` — `/srv/samba/marketing`
+- `rrhh` — `/srv/samba/rrhh`
+- `direccion` — `/srv/samba/direccion`
+- `sistemas` — `/srv/samba/sistemas`
+- `invitados` — `/srv/samba/invitados`
+
+#### Accesos
+- Ventas: acceso a `ventas`.
+- Marketing: acceso a `marketing`.
+- RRHH: acceso a `rrhh`.
+- Dirección: acceso a `direccion`.
+- Sistemas: acceso root a `sistemas` y lectura limitada en `invitados`.
+
+#### Ejemplo de configuración Samba
+- Usuarios Samba: `ventas_jefe`, `rrhh_jefe`, `gerencia_jefe`, `sistemas_reporte`, `guest`.
+- Permisos de lectura/escritura según rol.
+
+---
+
+### CROND
+#### Objetivos
+- Actualizar sistemas operativos de servidores y PCs los viernes a las 20:00.
+- Respaldar `/home` del servidor central y guardar el backup.
+
+#### Tareas programadas
+- Actualización semanal:
+  - `0 20 * * 5 apt update && apt upgrade -y`
+- Respaldo de home:
+  - `30 20 * * 5 tar czf /var/backups/home-$(date +\%F).tar.gz /home`
+
+#### Detalles de respaldo
+- Backup almacenado en: `/var/backups/`
+- Retención recomendada: 4 semanas.
+- Verificar existencia del archivo y permisos de lectura.
+
+---
+
+## Página 7: Evidencias y procedimientos
+
+### Evidencia de SSH
+- Registro de conexión:
+  - `ssh sistemas_soporte@10.10.2.11`
+  - `ssh sistemas_soporte@10.10.3.11`
+- Proceso de conexión:
+  1. Iniciar sesión en `PC-SIS-01`.
+  2. Ejecutar el comando SSH hacia la tienda.
+  3. Validar el acceso y recopilar logs.
+
+### Evidencia de Web/BD
+- Iniciar sesión en `http://10.10.1.10/inventario`.
+- Acceder a la base de datos `inventarios_db` con el usuario `inventario_app`.
+- Capturar consultas de estado y reportes.
+
+### Evidencia de Samba
+- Acceder a `\\10.10.0.10\ventas` desde una PC de ventas.
+- Acceso a `\\10.10.0.10\sistemas` desde `sistemas_admin`.
+- Validar permisos y creación de archivos.
+
+### Evidencia de CUPS
+- Imprimir una página de prueba desde `PC-GER-01` hacia `CUPS-GER-01`.
+- Revisar colas en la interfaz CUPS.
+
+### Procedimientos adicionales
+- Actualización de paquetes: `sudo apt update && sudo apt upgrade -y`.
+- Verificación de backups: `ls -lh /var/backups/home-*.tar.gz`.
+- Revisión de servicios: `systemctl status apache2 mariadb smbd cups cron ssh`.
+
+---
+
+## Resumen de entregables
+- Mapa WAN descriptivo con referencia a Google Maps.
+- Mapa LAN con propiedades de equipos clicables.
+- Inventario claro de PCs, impresoras, servicios y carpetas.
+- Usuarios, grupos, permisos y credenciales de ejemplo.
+- Propuesta de servicios SSH, web/BD, impresoras, Samba y CROND.
+- Evidencias y procedimientos para soportes remotos y respaldos.

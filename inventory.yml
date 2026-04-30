@@ -1,0 +1,85 @@
+version: 1
+locations:
+  - name: Matriz
+    type: oficina
+    server: 10.10.0.10
+    devices:
+      - hostname: SERV-MAT
+        ip: 10.10.0.10
+        role: servidor
+        services: [apache2, mariadb, samba, cups, ssh, cron]
+      - hostname: PC-SIS-01
+        ip: 10.10.0.20
+        role: pc
+        user: sistemas_soporte
+        department: sistemas
+        services: [ssh, samba]
+  - name: Almacén
+    type: almacen
+    server: 10.10.1.10
+    devices:
+      - hostname: SERV-ALM
+        ip: 10.10.1.10
+        role: servidor
+        services: [apache2, mariadb, samba, ssh]
+  - name: Tienda 1
+    type: tienda
+    devices:
+      - hostname: POS-01
+        ip: 10.10.2.11
+        role: punto de venta
+        user: ventas_jefe
+        services: [ssh, samba]
+      - hostname: TKT-01
+        ip: 10.10.2.50
+        role: impresora
+        service: cups
+  - name: Tienda 2
+    type: tienda
+    devices:
+      - hostname: POS-02
+        ip: 10.10.3.11
+        role: punto de venta
+        user: ventas_apo1
+        services: [ssh, samba]
+      - hostname: TKT-02
+        ip: 10.10.3.50
+        role: impresora
+        service: cups
+users:
+  - username: sistemas_admin
+    department: sistemas
+    role: admin
+  - username: sistemas_soporte
+    department: sistemas
+    role: soporte
+  - username: sistemas_infra
+    department: sistemas
+    role: infraestructura
+  - username: ventas_jefe
+    department: ventas
+    role: jefe
+  - username: ventas_apo1
+    department: ventas
+    role: apoyo
+  - username: ventas_apo2
+    department: ventas
+    role: apoyo
+  - username: rrhh_jefe
+    department: rrhh
+    role: jefe
+  - username: rrhh_apo1
+    department: rrhh
+    role: apoyo
+  - username: rrhh_apo2
+    department: rrhh
+    role: apoyo
+  - username: gerencia_jefe
+    department: direccion
+    role: jefe
+  - username: gerencia_apo1
+    department: direccion
+    role: apoyo
+  - username: gerencia_apo2
+    department: direccion
+    role: apoyo
