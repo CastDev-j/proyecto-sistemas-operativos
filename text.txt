@@ -1,0 +1,86 @@
+1. SSH
+Uso: Soporte remoto Matriz → Tiendas
+
+Usuarios: sistemas_admin, sistemas_soporte, sistemas_infra
+
+Conexión:
+
+bash
+ssh sistemas_soporte@10.10.2.11  # Tienda 1
+ssh sistemas_soporte@10.10.3.11  # Tienda 2
+Capturas:
+
+#	Evidencia
+1	systemctl status ssh en Tienda 1
+2	systemctl status ssh en Tienda 2
+3	Conexión SSH exitosa desde PC-SIS-01
+4	tail /var/log/auth.log tras conexión
+2. Web y Base de Datos
+Ubicación: Servidor en Almacén (SERV-ALM)
+
+Acceso:
+
+URL: http://10.10.1.10/inventario
+
+BD: inventarios_db
+
+Usuario: inventario_app
+
+Capturas:
+
+#	Evidencia
+5	systemctl status apache2 en SERV-ALM
+6	systemctl status mariadb en SERV-ALM
+7	Acceso web a http://10.10.1.10/inventario
+8	mysql -u inventario_app -p -e "SHOW DATABASES;"
+3. Samba (Carpetas compartidas)
+Servidor: SERV-MAT (10.10.0.10)
+
+Carpetas:
+
+Carpeta	Ruta	Acceso
+Ventas	\\10.10.0.10\ventas	ventas_jefe (RW), ventas_apo* (R)
+RR.HH.	\\10.10.0.10\rrhh	rrhh_jefe (RW), rrhh_apo* (R)
+Dirección	\\10.10.0.10\direccion	gerencia_jefe (RW), gerencia_apo* (R)
+Sistemas	\\10.10.0.10\sistemas	sistemas_* (RW)
+Invitados	\\10.10.0.10\invitados	Todos (R)
+Capturas:
+
+#	Evidencia
+9	systemctl status smbd en SERV-MAT
+10	ls -la /srv/samba/
+11	Acceso a \\10.10.0.10\ventas desde POS-01
+12	Crear/leer archivo en carpeta asignada
+4. CUPS (Impresoras)
+Ubicaciones e impresoras:
+
+Ubicación	Impresora	IP
+Matriz	CUPS-GER-01	10.10.0.40
+Almacén	CUPS-ALM-01	10.10.1.30
+Tienda 1	TKT-01	10.10.2.20
+Tienda 2	TKT-02	10.10.3.20
+Capturas:
+
+#	Evidencia
+13	systemctl status cups en servidor
+14	lpstat -p -d (estado impresoras)
+15	Impresión página de prueba
+16	Cola de impresión lpq
+5. CROND
+Tareas programadas:
+
+Tarea	Horario	Comando
+Actualización	Viernes 20:00	apt update && apt upgrade -y
+Backup /home	Viernes 20:30	tar czf /var/backups/home-$(date +\%F).tar.gz /home
+Crontab:
+
+bash
+0 20 * * 5 apt update && apt upgrade -y
+30 20 * * 5 tar czf /var/backups/home-$(date +\%F).tar.gz /home
+Capturas:
+
+#	Evidencia
+17	crontab -l del usuario root
+18	ls -lh /var/backups/home-*.tar.gz
+19	systemctl status cron
+20	Log: grep CRON /var/log/syslog

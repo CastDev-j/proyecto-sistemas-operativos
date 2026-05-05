@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Mapa WAN - Infraestructura Celaya</name>
+    <description>Conectividad WAN entre Matriz, Almacén, Tienda 1 y Tienda 2 en Celaya, Gto.</description>
+    
+    <Style id="styleMatriz">
+      <IconStyle>
+        <scale>1.2</scale>
+        <Icon><href>http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png</href></Icon>
+      </IconStyle>
+      <LabelStyle>
+        <color>ff0000ff</color>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+
+    <Style id="styleAlmacen">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon><href>http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png</href></Icon>
+      </IconStyle>
+      <LabelStyle>
+        <color>ff00ff00</color>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+
+    <Style id="styleTienda1">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon><href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href></Icon>
+      </IconStyle>
+      <LabelStyle>
+        <color>ff00ffff</color>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+
+    <Style id="styleTienda2">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon><href>http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png</href></Icon>
+      </IconStyle>
+      <LabelStyle>
+        <color>ff00ffff</color>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+
+    <Style id="styleVPN">
+      <LineStyle>
+        <color>ff0000ff</color>
+        <width>3</width>
+      </LineStyle>
+    </Style>
+
+    <Style id="styleRespaldo">
+      <LineStyle>
+        <color>ff00ff00</color>
+        <width>2</width>
+      </LineStyle>
+    </Style>
+
+    <Style id="styleSincronizacion">
+      <LineStyle>
+        <color>ffffff00</color>
+        <width>2</width>
+      </LineStyle>
+    </Style>
+
+    <Placemark>
+      <name>Matriz - Oficina Central</name>
+      <description>
+        &lt;b&gt;Firewall / VPN Principal&lt;/b&gt;&lt;br/&gt;
+        &lt;i&gt;Enlace VPN/IPsec a Almacén, Tienda 1 y Tienda 2&lt;/i&gt;&lt;br/&gt;
+        &lt;b&gt;Dirección:&lt;/b&gt; Av. Madero Sur 123, Centro, Celaya, Gto.&lt;br/&gt;
+        &lt;a href="https://www.google.com/maps?q=20.5225,-100.8126"&gt;Ver ubicación exacta en Google Maps&lt;/a&gt;
+      </description>
+      <styleUrl>#styleMatriz</styleUrl>
+      <Point>
+        <coordinates>-100.8126,20.5225,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Almacén - Centro Logístico</name>
+      <description>
+        &lt;b&gt;Enlace VPN/IPsec con Matriz&lt;/b&gt;&lt;br/&gt;
+        &lt;i&gt;Enlace respaldo con Tienda 1&lt;/i&gt;&lt;br/&gt;
+        &lt;b&gt;Dirección:&lt;/b&gt; Blvd. Aeropuerto 456, Parque Industrial Celaya&lt;br/&gt;
+        &lt;a href="https://www.google.com/maps?q=20.5489,-100.7865"&gt;Ver ubicación exacta en Google Maps&lt;/a&gt;
+      </description>
+      <styleUrl>#styleAlmacen</styleUrl>
+      <Point>
+        <coordinates>-100.7865,20.5489,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Tienda 1 - Principal</name>
+      <description>
+        &lt;b&gt;Enlace VPN/IPsec con Matriz&lt;/b&gt;&lt;br/&gt;
+        &lt;i&gt;Sincronización de ventas e inventario&lt;/i&gt;&lt;br/&gt;
+        &lt;b&gt;Dirección:&lt;/b&gt; Av. Constituyentes 789, Fracc. Los Ángeles, Celaya&lt;br/&gt;
+        &lt;a href="https://www.google.com/maps?q=20.5386,-100.8289"&gt;Ver ubicación exacta en Google Maps&lt;/a&gt;
+      </description>
+      <styleUrl>#styleTienda1</styleUrl>
+      <Point>
+        <coordinates>-100.8289,20.5386,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Tienda 2 - Secundaria</name>
+      <description>
+        &lt;b&gt;Enlace VPN/IPsec con Matriz&lt;/b&gt;&lt;br/&gt;
+        &lt;i&gt;Sincronización de ventas e inventario&lt;/i&gt;&lt;br/&gt;
+        &lt;b&gt;Dirección:&lt;/b&gt; Blvd. Juan José Torres Landa 234, El Sauz, Celaya&lt;br/&gt;
+        &lt;a href="https://www.google.com/maps?q=20.4982,-100.7974"&gt;Ver ubicación exacta en Google Maps&lt;/a&gt;
+      </description>
+      <styleUrl>#styleTienda2</styleUrl>
+      <Point>
+        <coordinates>-100.7974,20.4982,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>VPN / IPsec: Matriz ↔ Almacén</name>
+      <description>Enlace principal VPN/IPsec | Distancia aproximada: 5.2 km</description>
+      <styleUrl>#styleVPN</styleUrl>
+      <LineString>
+        <coordinates>
+          -100.8126,20.5225,0
+          -100.7865,20.5489,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+
+    <Placemark>
+      <name>VPN / IPsec: Matriz ↔ Tienda 1</name>
+      <description>Enlace principal VPN/IPsec | Distancia aproximada: 3.1 km</description>
+      <styleUrl>#styleVPN</styleUrl>
+      <LineString>
+        <coordinates>
+          -100.8126,20.5225,0
+          -100.8289,20.5386,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+
+    <Placemark>
+      <name>VPN / IPsec: Matriz ↔ Tienda 2</name>
+      <description>Enlace principal VPN/IPsec | Distancia aproximada: 4.5 km</description>
+      <styleUrl>#styleVPN</styleUrl>
+      <LineString>
+        <coordinates>
+          -100.8126,20.5225,0
+          -100.7974,20.4982,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+
+    <Placemark>
+      <name>Enlace respaldo: Almacén ↔ Tienda 1</name>
+      <description>Conexión de respaldo secundaria | Distancia aproximada: 6.8 km</description>
+      <styleUrl>#styleRespaldo</styleUrl>
+      <LineString>
+        <coordinates>
+          -100.7865,20.5489,0
+          -100.8289,20.5386,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+
+    <Placemark>
+      <name>Sincronización: Tienda 1 → Matriz</name>
+      <description>Sincronización de ventas e inventario en tiempo real</description>
+      <styleUrl>#styleSincronizacion</styleUrl>
+      <LineString>
+        <coordinates>
+          -100.8289,20.5386,0
+          -100.8126,20.5225,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+
+    <Placemark>
+      <name>Sincronización: Tienda 2 → Matriz</name>
+      <description>Sincronización de ventas e inventario en tiempo real</description>
+      <styleUrl>#styleSincronizacion</styleUrl>
+      <LineString>
+        <coordinates>
+          -100.7974,20.4982,0
+          -100.8126,20.5225,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+
+    <Placemark>
+      <name>Sincronización: Almacén → Matriz</name>
+      <description>Sincronización de inventario en tiempo real</description>
+      <styleUrl>#styleSincronizacion</styleUrl>
+      <LineString>
+        <coordinates>
+          -100.7865,20.5489,0
+          -100.8126,20.5225,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+
+  </Document>
+</kml>
